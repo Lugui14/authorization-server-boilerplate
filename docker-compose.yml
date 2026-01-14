@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: auth-postgres
+    environment:
+      POSTGRES_DB: authdb
+      POSTGRES_USER: authuser
+      POSTGRES_PASSWORD: authpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - auth-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U authuser -d authdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Uncomment below to run authorization-server in Docker
+  # authorization-server:
+  #   build:
+  #     context: .
+  #     dockerfile: authorization-server/Dockerfile
+  #   container_name: authorization-server
+  #   ports:
+  #     - "8080:8080"
+  #   environment:
+  #     SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/authdb
+  #     SPRING_DATASOURCE_USERNAME: authuser
+  #     SPRING_DATASOURCE_PASSWORD: authpass
+  #     GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+  #     GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+  #     GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+  #     GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   networks:
+  #     - auth-network
+
+  # Uncomment below to run resource-server in Docker
+  # resource-server:
+  #   build:
+  #     context: .
+  #     dockerfile: resource-server/Dockerfile
+  #   container_name: resource-server
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: http://authorization-server:8080
+  #     SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://authorization-server:8080/oauth2/jwks
+  #   depends_on:
+  #     - authorization-server
+  #   networks:
+  #     - auth-network
+
+volumes:
+  postgres-data:
+    driver: local
+
+networks:
+  auth-network:
+    driver: bridge

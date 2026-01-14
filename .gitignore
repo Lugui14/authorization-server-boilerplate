@@ -1,0 +1,55 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Environment ###
+.env
+*.log
+
+### Database ###
+*.db
+*.sqlite
+
+### Docker ###
+*.pid
+
+### OS ###
+.DS_Store
+Thumbs.db
+
+temp_hash.class
+temp_hash.java
+
+### Keystore (optional - you might want to commit for development)
+# authorization-server/src/main/resources/jwt-keystore.jks
+
