@@ -43,6 +43,42 @@ spring:
 server:
   port: 8080
 
+app:
+  jwt:
+    issuer: http://localhost:8080
+    access-token-expiration-seconds: 3600
+    refresh-token-expiration-seconds: 604800
+  cors:
+    allowed-origins:
+      - http://localhost:3000
+      - http://localhost:8081
+  oauth2:
+    authorized-redirect-uris:
+      - http://localhost:8081/login/oauth2/code/client
+      - http://localhost:3000/oauth2/redirect
+  clients:
+    - client-id: client
+      client-secret: secret
+      client-name: Default Web Client
+      client-authentication-methods:
+        - CLIENT_SECRET_BASIC
+        - CLIENT_SECRET_POST
+      authorization-grant-types:
+        - AUTHORIZATION_CODE
+        - REFRESH_TOKEN
+        - CLIENT_CREDENTIALS
+      redirect-uris:
+        - http://localhost:8081/login/oauth2/code/client
+        - http://localhost:3000/oauth2/redirect
+      scopes:
+        - openid
+        - profile
+        - email
+        - read
+        - write
+      access-token-time-to-live-seconds: 3600
+      refresh-token-time-to-live-seconds: 604800
+
 jwt:
   keystore:
     path: ${JWT_KEYSTORE_PATH:authorization-server/src/main/resources/jwt-keystore.jks}

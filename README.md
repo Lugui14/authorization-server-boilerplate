@@ -252,37 +252,6 @@ This is the foundation for implementing:
 - [ ] Permission management
 - [ ] Dynamic client registration
 
-## 📁 Project Structure
-
-```
-authorization-server-boilerplate/
-├── common/                          # Shared module
-│   └── src/main/java/
-│       └── com/luizguizl/common/
-│           └── dto/                 # Data Transfer Objects
-├── authorization-server/            # OAuth2 Authorization Server
-│   └── src/main/
-│       ├── java/com/luizguizl/authserver/
-│       │   ├── config/             # Security configurations
-│       │   ├── entity/             # JPA entities
-│       │   ├── repository/         # Database repositories
-│       │   └── service/            # Business logic
-│       └── resources/
-│           ├── db/migration/       # Flyway migrations
-│           ├── application.yml
-│           └── jwt-keystore.jks
-├── resource-server/                 # Protected API
-│   └── src/main/
-│       ├── java/com/luizguizl/resourceserver/
-│       │   ├── config/             # Security configurations
-│       │   └── controller/         # REST controllers
-│       └── resources/
-│           └── application.yml
-├── docker-compose.yml
-├── .env.example
-└── generate-keystore.sh
-```
-
 ## 🛠️ Development
 
 ### Clean and rebuild
@@ -312,34 +281,9 @@ docker-compose logs -f
 docker exec -it auth-postgres psql -U authuser -d authdb
 ```
 
-## 🐛 Troubleshooting
-
-**Issue: "Invalid redirect URI"**
-- Ensure your OAuth2 app redirect URIs match exactly (including protocol and port)
-
-**Issue: "Invalid client credentials"**
-- Check that Client ID and Client Secret in `.env` match your OAuth2 provider settings
-
-**Issue: "Failed to load keystore"**
-- Run `./generate-keystore.sh` to create the JWT keystore
-- Verify the keystore path in `application.yml`
-
-**Issue: "Connection refused" to PostgreSQL**
-- Ensure Docker is running: `docker-compose ps`
-- Start PostgreSQL: `docker-compose up -d postgres`
-
-**Issue: JWT validation fails**
-- Ensure both servers are running
-- Check that issuer-uri in resource-server matches authorization-server URL
-- Verify the JWKS endpoint is accessible: `curl http://localhost:8080/oauth2/jwks`
-
-## 📝 License
-
-This project is licensed under the MIT License.
-
 ## 👤 Author
 
-Luiz Guizl
+Luiz Guilherme
 
 ---
 
